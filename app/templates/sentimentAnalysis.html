@@ -1,13 +1,8 @@
 <!-- extend from base layout -->
 {% extends "base.html" %}
-{% block head %}
-
-  <script src="../static/d3/d3.js"></script>
-{% endblock %}
 
 {% block content %}
-  <h1>NL3Po - Dialect Model</h1>
-
+  <h1>Sentiments Analysis</h1>
   <div>
     <p>This tool analyses your plain text and tells you the most common words.<br>
     This is considered the Hello World of Natural Language Processing.</p>
@@ -88,32 +83,5 @@
   bar.on("mouseout", function(d){
                       div.style("display", "none");
                   });
-
-  function type(d) {
-        d.value = +d.value; // coerce to number
-        return d;
-      }
-  </script>
-  <form action="" method="post" name="inputText">
-    <fieldset  style = "margin-left: 250px; width:700px;left:400px; top:10px; bottom: -500px;">
- <legend>الرسم البياني بناء على:</legend>
-   <nav>
-     <button class="big-btn" name="action-button" type="submit" value="A"> المدن العربية</button>
-     <button class="big-btn" name="action-button" type="submit" value="B">الدول العربية</button>
-     <button class="big-btn" name="action-button" type="submit" value="C" >المناطق العربية</button>
-    
-   </nav>
-   <form method ="post" action="/">
-    <button type="submit" name="submit_a" value="submit_a"> Submit_a </button>
-    <button type="submit" name="submit_b" value="submit_b"> Submit_b </button>
-  </form> 
-  
-  
-  
- 
-
-     </fieldset>
-
-   </form>
 
 {% endblock %}

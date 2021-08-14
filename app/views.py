@@ -86,8 +86,14 @@ def manageRequest():
                            commonWords = myText.getMostCommonWords(10))
 
     elif 'SA'  in request.form.values():
-         return render_template('future.html',
-                           title='Sentiment Analysis Not yet implemented')
+         return render_template('sentimentAnalysis.html',
+                         title='Sentiment Analysis',
+                           inputTypeText = typeText,
+                           originalText = fragment,
+                           numChars = myText.length(),
+                           numSentences = myText.getSentences(),
+                           numTokens = myText.getTokens(),
+                           uniqueTokens = uniqueTokensText,)
 
     elif 'DA'  in request.form.values():
          davalue = [('jed',0.58),('ruh',0.31)]
@@ -110,6 +116,7 @@ def manageRequest():
                            title='Dialect Model',
                            inputTypeText = typeText,
                            originalText = fragment,
+
                            uniqueTokens = uniqueTokensText,
                            commonWords = myText.getMostCommonCountry()
          )
