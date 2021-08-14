@@ -73,8 +73,8 @@ class TextAnalyser:
 
 # Predict the sentiment of a single sentence
         sentiment = sa.predict_sentence(self.text)
-        sentiments = sa.predict(sentiment)
-        return sentiments
+        #sentiments = sa.predict(sentiment)
+        return sentiment
 
     def length(self):
         """ return length of text in chars """
