@@ -87,15 +87,14 @@ def manageRequest():
 
     elif 'SA'  in request.form.values():
          return render_template('sentimentAnalysis.html',
-                         title='Sentiment Analysis',
+                           title='Sentiment Analysis',
                            inputTypeText = typeText,
                            originalText = fragment,
                            numChars = myText.length(),
                            numSentences = myText.getSentences(),
                            numTokens = myText.getTokens(),
                            uniqueTokens = uniqueTokensText,
-                           OR = myText.getPositiveORNegative()
-                           )
+                           OR = myText.getPositiveORNegative())
 
     elif 'DA'  in request.form.values():
          davalue = [('jed',0.58),('ruh',0.31)]
