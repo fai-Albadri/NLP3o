@@ -93,7 +93,9 @@ def manageRequest():
                            numChars = myText.length(),
                            numSentences = myText.getSentences(),
                            numTokens = myText.getTokens(),
-                           uniqueTokens = uniqueTokensText,)
+                           uniqueTokens = uniqueTokensText,
+                           OR = myText.getPositiveORNegative()
+                           )
 
     elif 'DA'  in request.form.values():
          davalue = [('jed',0.58),('ruh',0.31)]

@@ -15,23 +15,14 @@ from .inputhandler import readStopwords
 import nltk
 import pandas as pd
 from camel_tools.dialectid import DialectIdentifier
+from camel_tools.sentiment import SentimentAnalyzer
+
 #2:36
 # init the model
 #camel
 
 from nltk.stem import WordNetLemmatizer
 #add camel tools
-class camel:
-     def __init__(self, inputText, language = "EN"):
-        self.text = inputText
-        self.tokens = []
-        self.sentences = []
-        self.language = language
-        self.stopWords = set(readStopwords(language))
-
-    
-
-
 class TextAnalyser:
         # stemming values
     NO_STEMMING = 0
@@ -75,6 +66,15 @@ class TextAnalyser:
         sorted_country = sorted(predictions[0].scores.items(),key=lambda x: x[1],reverse=True)
         
         return sorted_country[:n]
+
+
+    def getPositiveORNegative(self):
+        sa = SentimentAnalyzer.pretrained()
+
+# Predict the sentiment of a single sentence
+        sentiment = sa.predict_sentence(self.text)
+        sentiments = sa.predict(sentiment)
+        return sentiments
 
     def length(self):
         """ return length of text in chars """
