@@ -86,6 +86,7 @@ def manageRequest():
                            commonWords = myText.getMostCommonWords(10))
 
     elif 'SA'  in request.form.values():
+        
          return render_template('sentimentAnalysis.html',
                            title='Sentiment Analysis',
                            inputTypeText = typeText,
@@ -94,7 +95,11 @@ def manageRequest():
                            numSentences = myText.getSentences(),
                            numTokens = myText.getTokens(),
                            uniqueTokens = uniqueTokensText,
-                           OR = myText.getPositiveORNegative())
+                           OR = myText.getPositiveORNegative(),
+                           PositiveORNegative=myText.tokenise(),
+                           And=myText.getPositiveORNegative2()
+
+         )
 
     elif 'DA'  in request.form.values():
          davalue = [('jed',0.58),('ruh',0.31)]

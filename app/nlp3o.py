@@ -76,6 +76,14 @@ class TextAnalyser:
         #sentiments = sa.predict(sentiment)
         return sentiment
 
+    def getPositiveORNegative2(self):
+        sa = SentimentAnalyzer.pretrained()
+# Predict the sentiment of a single sentence
+        #sentiment = sa.predict_sentence(self.text)
+        sentiment=self.text.split()
+        sentiments = sa.predict(sentiment)
+        return sentiments
+
     def length(self):
         """ return length of text in chars """
         return len(self.text)
