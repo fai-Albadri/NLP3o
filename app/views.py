@@ -115,7 +115,7 @@ def manageRequest():
                            commonWords = myText.getMostCommonCities()
          )
          
-    elif 'A'  in request.form.values():
+    if 'A'  in request.form.values():
          davalue = [('jed',0.58),('ruh',0.31)]
          myText = TextAnalyser(userText, language) # new object
          return render_template('A.html',
