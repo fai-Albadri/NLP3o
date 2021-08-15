@@ -131,8 +131,7 @@ def contact():
             uniqueTokensText = 1    
     else:
             uniqueTokensText = myText.uniqueTokens()
-    if request.method == 'POST':
-        if request.form['action_button'] == 'A':
+    if 'A'  in request.form.values():
           return render_template('A.html',
                            title='Dialect Model',
                            inputTypeText = typeText,
@@ -140,7 +139,7 @@ def contact():
                            uniqueTokens = uniqueTokensText,
                            commonWords = myText.getMostCommonCountry()
          )
-        elif request.form['action_button'] == 'B':
+    elif 'B'  in request.form.values():
              return render_template('B.html',
                            title='Dialect Model',
                            inputTypeText = typeText,
@@ -152,7 +151,7 @@ def contact():
                            commonWords = myText.getMostCommonCities()
          )
         
-        elif request.form['action_button'] == 'C':
+    elif 'C'  in request.form.values():
              return render_template('C.html',
                            title='Dialect Model',
                            inputTypeText = typeText,
@@ -164,7 +163,7 @@ def contact():
                            commonWords = myText.getMostCommonRegion()
          )
       
-        else:
+    else:
             return render_template('future.html',
                            title='Not  implemented')
   
