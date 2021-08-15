@@ -131,7 +131,7 @@ def contact():
             uniqueTokensText = 1    
     else:
             uniqueTokensText = myText.uniqueTokens()
-    if request.method == 'POST1':
+    if request.method == 'POST':
         if request.form['action_button'] == 'A':
           return render_template('A.html',
                            title='Dialect Model',
