@@ -1,7 +1,15 @@
 <!-- extend from base layout -->
 {% extends "base.html" %}
 {% block head %}
-
+<style>
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
   <script src="../static/d3/d3.js"></script>
 {% endblock %}
 
@@ -24,92 +32,161 @@
     <p>Total tokens:  <span class="stats">  {{ numTokens }} </span> </p>
     <p>Unique tokens: <span class="stats"> {{ uniqueTokens }} </span></p>
     <p>Lexical diversity: each token in average is repeated {{ numTokens / uniqueTokens }} times</p>
-      <svg class="chart"></svg>
+    <p>Top 10 words: {{ topCities }} </p>
+<!--
+START
+-->
+<div id="city" class="tabcontent">
+  <h3>Cities</h3>
+  <svg class="chart" id="chart-city"></svg>
+</div>
+
+<div id="region" class="tabcontent">
+  <h3>Regions</h3>
+  <svg class="chart" id="chart-region"></svg>
+  
+  
+</div>
+<div id="country" class="tabcontent">
+  <h3>Countries</h3>
+  <svg class="chart" id="chart-country"></svg>
+
+</div>
+
+<!-- Tab links -->
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'city')">City</button>
+  <button class="tablinks" onclick="openCity(event, 'country')">Country</button>
+  <button class="tablinks" onclick="openCity(event, 'region')">Region</button>
+</div>
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+<!--
+END
+-->
+  <script>
+    
+  function openTab(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  </script>
 
   <script>
+  function updateData(category) { 
+    // Width and height of the canvas (SVG element)
+    var w = 500;
+    var h = 200;
+    var h_bar = 20;
+    var labelWidth = 0, margin = 150, paddingH = 2;
+      // get the data in dictionary (name, value)
+    var data = [];
+    if (category=='city'){
+      {% for word, n in topCities %}
+        data.push({name: "{{ word }}", value: {{n }} });
+      {% endfor %}
+    }
+    else if (category=='country'){
+      {% for word, n in topCountries %}
+        data.push({name: "{{ word }}", value: {{n }} });
+      {% endfor %}
+    }
+    else {
+      {% for word, n in topRegions %}
+        data.push({name: "{{ word }}", value: {{n }} });
+      {% endfor %}
+    }
+    var x = d3.scaleLinear().range([0, w - margin*2 - labelWidth]);
+    x.domain([0, d3.max(data, function(d) { return d.value; })]);
+          // prepare for tooltip
+    var div = d3.select("body").append("div").attr("class", "toolTip");
+          // prepare chart
+    var chart = d3.select("#chart-"+category)
+          .attr("width", w)
+          .attr("height", h);
 
-  // Width and height of the canvas (SVG element)
-  var w = 500;
-  var h = 200;
-  var h_bar = 20;
-  var labelWidth = 0, margin = 40, paddingH = 2;
-    // get the data in dictionary (name, value)
-  var data = [];
-  {% for word, n in commonWords %}
-    data.push({name: "{{ word }}", value: {{n }} });
-  {% endfor %}
+              // attach the data; push the group over and down
+    var bar = chart.selectAll("g")
+              .data(data)
+              .enter().append("g")
+              .attr("transform", function(d, i) { return "translate(" + margin + "," + i * h_bar + ")"; });
 
-  var x = d3.scaleLinear().range([0, w - margin*2 - labelWidth]);
-  x.domain([0, d3.max(data, function(d) { return d.value; })]);
-         // prepare for tooltip
-  var div = d3.select("body").append("div").attr("class", "toolTip");
-         // prepare chart
-  var chart = d3.select(".chart")
-        .attr("width", w)
-        .attr("height", h);
-
-            // attach the data; push the group over and down
-  var bar = chart.selectAll("g")
-            .data(data)
-            .enter().append("g")
-            .attr("transform", function(d, i) { return "translate(" + margin + "," + i * h_bar + ")"; });
-
-            // add label (=the word) at the beginning
- bar.append("text")
-            .attr("y", h_bar / 2)  // label centered vertically
-            .attr("dy", ".35em") // vertical align middle
-            .text(function(d){  return d.name;
-                            }).each(function() {
-                                  labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
-                            });
-
-           // add bar
-  bar.append("rect")
-          .attr("transform", "translate("+labelWidth+", 0)") // start after margin for label
-          .attr("width", function(d) { return x(d.value); }) // length depends on word count
-          .attr("height", h_bar - paddingH);  // leave some padding between bars
-
-          // add word count inside the bar
+              // add label (=the word) at the beginning
   bar.append("text")
-          .attr("class", "value")  // bigger font, white
-          .attr("x", function(d) { return x(d.value); })
-          .attr("y", h_bar / 2)
-          .attr("dx", labelWidth - 15) //margin right
-          .attr("dy", ".35em")
-          .text(function(d) { return d.value; });  // word count
+              .attr("y", h_bar / 2)  // label centered vertically
+              .attr("dy", ".35em") // vertical align middle
+              .text(function(d){  return d.name;
+                              }).each(function() {
+                                    labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
+                              });
 
-  bar.on("mousemove", function(d){
-                      div.style("left", d3.event.pageX+10+"px");
-                      div.style("top", d3.event.pageY-25+"px");
-                      div.style("display", "inline-block");
-                      div.html((d.name)+"<br>"+(d.value / {{ numTokens }})+"%");
-                  });
-  bar.on("mouseout", function(d){
-                      div.style("display", "none");
-                  });
+            // add bar
+    bar.append("rect")
+            .attr("transform", "translate("+labelWidth+", 0)") // start after margin for label
+            .attr("width", function(d) { return Math.max(50,x(d.value)); }) // length depends on word count
+            .attr("height", h_bar - paddingH);  // leave some padding between bars
 
-  function type(d) {
-        d.value = +d.value; // coerce to number
-        return d;
-      }
+            // add word count inside the bar
+    bar.append("text")
+            .attr("class", "value")  // bigger font, white
+            .attr("x", function(d) { return Math.max(60,x(d.value)); })
+            .attr("y", h_bar / 2)
+            .attr("dx", labelWidth - 15) //margin right
+            .attr("dy", ".35em")
+            .text(function(d) { return d.value; });  // word count
+
+    bar.on("mousemove", function(d){
+                        div.style("left", d3.event.pageX+10+"px");
+                        div.style("top", d3.event.pageY-25+"px");
+                        div.style("display", "inline-block");
+                        div.html((d.name)+"<br>"+(d.value / {{ numTokens }})+"%");
+                    });
+    bar.on("mouseout", function(d){
+                        div.style("display", "none");
+                    });
+
+    function type(d) {
+          d.value = +d.value; // coerce to number
+          return d;
+        }
+  }
+  updateData('city');
+  updateData('country');
+  updateData('region');
+  openCity(event, 'city');
   </script>
-  <form action="" method="POST1" name="inputText1">
+
     <fieldset  style = "margin-left: 250px; width:700px;left:400px; top:10px; bottom: -500px;">
  <legend>الرسم البياني بناء على:</legend>
-   <nav>
-     <button class="big-btn" name="action-button" type="submit" value="A"> المدن العربية</button>
-     <button class="big-btn" name="action-button" type="submit" value="B">الدول العربية</button>
-     <button class="big-btn" name="action-button" type="submit" value="C" >المناطق العربية</button>
+   <nav>     
+     <button class="big-btn" name="action-button" onclick="openCity(event, 'city')"> المدن العربية</button>
+     <button class="big-btn" name="action-button" onclick="openCity(event, 'country')">الدول العربية</button>
+     <button class="big-btn" name="action-button" onclick="openCity(event, 'region')" >المناطق العربية</button>
     
    </nav>
- 
-  
-  
-  
- 
 
      </fieldset>
-
-</form>
 
 {% endblock %}
