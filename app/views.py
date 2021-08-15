@@ -114,62 +114,8 @@ def manageRequest():
                            uniqueTokens = uniqueTokensText,
                            commonWords = myText.getMostCommonCities()
          )
-def contact():
+
     
-    theInputForm = InputTextForm()
-    userText = theInputForm.inputText.data
-    typeText = "Your own text"
-    language = request.form['lang'] # which language?
-    myText = TextAnalyser(userText, language) # new object
-    if len(userText) > 99:
-            fragment = userText[:99] + " ..."
-    else:
-            fragment = userText
-
-              # check that there is at least one unique token to avoid division by 0
-    if myText.uniqueTokens() == 0:
-            uniqueTokensText = 1    
-    else:
-            uniqueTokensText = myText.uniqueTokens()
-    if 'A'  in request.form.values():
-          return render_template('A.html',
-                           title='Dialect Model',
-                           inputTypeText = typeText,
-                           originalText = fragment,
-                           uniqueTokens = uniqueTokensText,
-                           commonWords = myText.getMostCommonCountry()
-         )
-    elif 'B'  in request.form.values():
-             return render_template('B.html',
-                           title='Dialect Model',
-                           inputTypeText = typeText,
-                           originalText = fragment,
-                           numChars = myText.length(),
-                           numSentences = myText.getSentences(),
-                           numTokens = myText.getTokens(),
-                           uniqueTokens = uniqueTokensText,
-                           commonWords = myText.getMostCommonCities()
-         )
-        
-    elif 'C'  in request.form.values():
-             return render_template('C.html',
-                           title='Dialect Model',
-                           inputTypeText = typeText,
-                           originalText = fragment,
-                           numChars = myText.length(),
-                           numSentences = myText.getSentences(),
-                           numTokens = myText.getTokens(),
-                           uniqueTokens = uniqueTokensText,
-                           commonWords = myText.getMostCommonRegion()
-         )
-      
-    else:
-            return render_template('future.html',
-                           title='Not  implemented')
-  
-    
-
-
 
   # render web form page
 @app.route('/', methods=['GET'])
