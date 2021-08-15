@@ -114,10 +114,24 @@ def manageRequest():
                            uniqueTokens = uniqueTokensText,
                            commonWords = myText.getMostCommonCities()
          )
-    def contact():
-      myText = TextAnalyser(userText, language) # new object
+def contact():
+    
+    theInputForm = InputTextForm()
+    userText = theInputForm.inputText.data
+    typeText = "Your own text"
+    language = request.form['lang'] # which language?
+    myText = TextAnalyser(userText, language) # new object
+    if len(userText) > 99:
+            fragment = userText[:99] + " ..."
+    else:
+            fragment = userText
 
-      if request.method == 'POST1':
+              # check that there is at least one unique token to avoid division by 0
+    if myText.uniqueTokens() == 0:
+            uniqueTokensText = 1    
+    else:
+            uniqueTokensText = myText.uniqueTokens()
+    if request.method == 'POST1':
         if request.form['action_button'] == 'A':
           return render_template('A.html',
                            title='Dialect Model',
