@@ -114,22 +114,20 @@ def manageRequest():
                            uniqueTokens = uniqueTokensText,
                            commonWords = myText.getMostCommonCities()
          )
-         
-    if 'A'  in request.form.values():
-         davalue = [('jed',0.58),('ruh',0.31)]
-         myText = TextAnalyser(userText, language) # new object
-         return render_template('A.html',
+    def contact():
+      myText = TextAnalyser(userText, language) # new object
+
+      if request.method == 'POST':
+        if request.form['action_button'] == 'A':
+          return render_template('A.html',
                            title='Dialect Model',
                            inputTypeText = typeText,
                            originalText = fragment,
-
                            uniqueTokens = uniqueTokensText,
                            commonWords = myText.getMostCommonCountry()
          )
-         
-    elif 'B'  in request.form.values():
-         myText = TextAnalyser(userText, language) # new object
-         return render_template('B.html',
+        elif request.form['action_button'] == 'B':
+             return render_template('B.html',
                            title='Dialect Model',
                            inputTypeText = typeText,
                            originalText = fragment,
@@ -139,10 +137,9 @@ def manageRequest():
                            uniqueTokens = uniqueTokensText,
                            commonWords = myText.getMostCommonCities()
          )
-         
-    elif 'C'  in request.form.values():
-         myText = TextAnalyser(userText, language) # new object
-         return render_template('C.html',
+        
+        elif request.form['action_button'] == 'C':
+             return render_template('C.html',
                            title='Dialect Model',
                            inputTypeText = typeText,
                            originalText = fragment,
@@ -152,11 +149,12 @@ def manageRequest():
                            uniqueTokens = uniqueTokensText,
                            commonWords = myText.getMostCommonRegion()
          )
-
-#
-    else:
-        return render_template('future.html',
+      
+        else:
+            return render_template('future.html',
                            title='Not  implemented')
+  
+    
 
 
 
