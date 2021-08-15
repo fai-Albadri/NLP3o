@@ -117,7 +117,7 @@ def manageRequest():
     def contact():
       myText = TextAnalyser(userText, language) # new object
 
-      if request.method == 'POST':
+      if request.method == 'POST1':
         if request.form['action_button'] == 'A':
           return render_template('A.html',
                            title='Dialect Model',
