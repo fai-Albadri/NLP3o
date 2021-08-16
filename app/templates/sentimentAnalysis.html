@@ -4,25 +4,20 @@
 {% block content %}
   <h1>Sentiments Analysis</h1>
   <div>
-    <p>Here we can identify the scentence that was writter if it is Positive or Negative<br>
+    <p>في هذه الصفحة يمكننا تصنيف الكلمات و الجمل سواء كانت موجبة أو سالبة<br>
   </p>
   </div>
 
-  <h2>{{ inputTypeText }}</h2>
+  <h2>النص الخاص بك</h2>
   <p>
           {{ originalText }}
   </p>
 
   <hr>
-    <h2>Main statistics:</h2>
-    <p>Total characters:  <span class="stats">   {{ numChars }}</span> (include spaces)</p>
-    <p>Total sentences:  <span class="stats">  {{ numSentences }} </span> </p>
-    <p>Total tokens:  <span class="stats">  {{ numTokens }} </span> </p>
-    <p>Unique tokens: <span class="stats"> {{ uniqueTokens }} </span></p>
-    <p>The sentiment for each word:  {{ And }} </p>
-    <p>The sentiment of the text overall:  {{ OR }} </p>
+    <h2>نتائج تحليل النص:</h2>
+    <p>النتيجة لكل كلمة في النص: {{ And }} </p>
+    <p>النتيجة للنص كامل: {{ OR }} </p>
 
-      <svg class="chart"></svg>
 
   <script>
 
