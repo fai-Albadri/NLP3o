@@ -83,7 +83,8 @@ def manageRequest():
                            numSentences = myText.getSentences(),
                            numTokens = myText.getTokens(),
                            uniqueTokens = uniqueTokensText,
-                           commonWords = myText.getMostCommonWords(10))
+                           commonWords = myText.getMostCommonWords(10),
+                           normalization=myText.getNormalization())
 
     elif 'SA'  in request.form.values():
         

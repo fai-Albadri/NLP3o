@@ -16,6 +16,7 @@ import nltk
 import pandas as pd
 from camel_tools.dialectid import DialectIdentifier
 from camel_tools.sentiment import SentimentAnalyzer
+from camel_tools.utils import normalize
 
 #2:36
 # init the model
@@ -82,6 +83,12 @@ class TextAnalyser:
         sentiment=self.text.split()
         sentiments = sa.predict(sentiment)
         return sentiments
+
+    def getNormalization(self):
+        a=normalize.normalize_alef_ar(self.text)
+        b=normalize.normalize_teh_marbuta_ar(a)
+        
+        return b
 
     def length(self):
         """ return length of text in chars """
