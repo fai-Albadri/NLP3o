@@ -82,7 +82,8 @@ class TextAnalyser:
         #sentiment = sa.predict_sentence(self.text)
         sentences = self.text.split('\n')
         sentiments = sa.predict(sentences)
-        return sentiments
+        return list(zip(sentences,sentiments))
+        #return sentiments
 
     def getNormalization(self):
         a=normalize.normalize_alef_ar(self.text)
