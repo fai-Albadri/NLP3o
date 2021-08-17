@@ -8,7 +8,7 @@
 {% block content %}
   <h1>Basic Text Analyser</h1>
 
-  <div>
+  <div dir="rlt">
     <p>في هذه الصفحة نطبق التقنيات الأساسية لتحليل النصوص.</p>
   </div>
 
@@ -17,6 +17,7 @@
           {{ originalText }}
   </p>
   <hr>
+  <div dir="rlt">
     <h2>النتائج الأساسية</h2>
     <p>مجموع الحروف: <span class="stats">   {{ numChars }}</span> (مع حساب المسافات)</p>
     <p>مجموع الجمل: <span class="stats">  {{ numSentences }} </span> </p>
@@ -25,6 +26,6 @@
     <p>أهم 10 كلمات مشتركة: {{ commonWords }} </p>
     <p> الجملة بعد التسوية (تحويل أي (ة)إلى (ه)و تحويل اي شكل من حرف الألف إلى (ا)):</p>
     <p> <span class="stats">{{ normalization }} </span></p>
-
+  </div>
 
 {% endblock %}
