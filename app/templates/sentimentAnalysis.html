@@ -7,12 +7,12 @@
 
 {% block content %}
   <h1>Sentiments Analysis</h1>
-  <div>
+  <div dir="rtl">
 
     <p>في هذه الصفحة يمكننا تصنيف الكلمات و الجمل سواء كانت موجبة أو سالبة
     </p> 
   </div>
-
+  <div dir="rtl">
   <h2>النص الخاص بك</h2>
   <p>
       {{ originalText }}
@@ -21,12 +21,13 @@
   <hr>
 
    <h2>نتائج تحليل النص:</h2>
+  < br/>
    <p>النتيجة لكل جملة في النص:
      {% for item in And %}
-        {{item}}<br/>
+        {{ item[0] }} : {{ item[1] }}<br/>
       {% endfor %}
      
    <p>النتيجة للنص كامل: {{ OR }} </p>
 
- 
+   </div>
 {% endblock %}
