@@ -21,7 +21,7 @@
 
         <p>
           :الرجاء إدخال النص المراد تحليله <br />
-          {{ form.inputText(size=400, placeholder="أكتب هنا......") }}<br />
+          {{ form.inputText(size=400, placeholder="أكتب هنا......", dir="rtl") }}<br />
 
           {% for error in form.inputText.errors %}
             <span style="color: red;">[{{ error }}]</span>
