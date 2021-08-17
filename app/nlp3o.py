@@ -80,7 +80,7 @@ class TextAnalyser:
         sa = SentimentAnalyzer.pretrained()
 # Predict the sentiment of a single sentence
         #sentiment = sa.predict_sentence(self.text)
-        sentences = self.text.split()
+        sentences = self.text.split('\n')
         sentiments = sa.predict(sentences)
         return sentiments
 
